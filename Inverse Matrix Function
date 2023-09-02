@@ -1,0 +1,39 @@
+#The function to make Matrix
+makeCacheMatrix <- function(x = matrix()) {
+    i <- NULL   # Initiate Matrix 
+  set <- function(y) {     #   function
+          x <<- y          #Matrix y     
+          i <<- NULL
+  }
+  get <- function() x
+  setinverse <- function(inverse) i <<- inverse  #setting inverse of matrix
+  getinverse <- function() i
+  list(set = set,                 ##  List shows the setting inverse 
+       get = get,
+       setinverse = setinverse,
+       getinverse = getinverse)        #Getting inverse of matrix   
+}
+################Example 
+Z <- matrix(c(5,7,12,24),2,2)
+Z1 <- makeCacheMatrix(Z)
+
+############################################################################
+#Function is used to solve matrix to get solution 
+cacheSolve <- function(x, ...) {
+  i <- x$getinverse()    
+  if (!is.null(i)) {
+          message("getting cached data")
+          return(i)
+  }
+  data <- x$get()
+  i <- solve(data, ...)
+  x$setinverse(i)
+  i
+}
+#######SOLUTION###########
+> cacheSolve(Z1)
+           [,1]       [,2]
+[1,]  0.6666667 -0.3333333
+[2,] -0.1944444  0.1388889
+
+#######################################################
